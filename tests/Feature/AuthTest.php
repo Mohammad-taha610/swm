@@ -86,7 +86,7 @@ class AuthTest extends TestCase
         $response->assertJson([
             [
                 'email' => [
-                    'The email must be a valid email address.'
+                    'The email field must be a valid email address.'
                 ]
             ]
         ]);
