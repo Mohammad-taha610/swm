@@ -21,4 +21,6 @@ use Illuminate\Support\Facades\Validator;
 Route::post('/tokens/create', [TokenController::class, 'createToken']);
 
 Route::middleware('auth:sanctum')->get('/films/store', [MoviesController::class, 'store']);
+Route::middleware('auth:sanctum')->get('/films/list', [MoviesController::class, 'index']);
+Route::middleware('auth:sanctum')->get('/films/list/{id}', [MoviesController::class, 'show']);
 
