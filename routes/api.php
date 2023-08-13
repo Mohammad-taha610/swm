@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\MoviesController;
 use App\Http\Controllers\TokenController;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -19,6 +20,5 @@ use Illuminate\Support\Facades\Validator;
 */
 Route::post('/tokens/create', [TokenController::class, 'createToken']);
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
-});
+Route::middleware('auth:sanctum')->get('/films/store', [MoviesController::class, 'store']);
+
