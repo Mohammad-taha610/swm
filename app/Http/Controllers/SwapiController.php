@@ -10,7 +10,7 @@ class SwapiController extends Controller
 {
     private $SwapiBaseURL = 'https://swapi.dev/api/';
     private $SwapiFilmURL = 'films/';
-    private $cacheTTL = '10000';
+    private $cacheTTL = '86400';
 
     public function getFilmURL(){
         return $this->SwapiBaseURL.$this->SwapiFilmURL;

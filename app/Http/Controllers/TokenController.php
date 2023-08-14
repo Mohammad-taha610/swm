@@ -11,11 +11,11 @@ class TokenController extends Controller
 {
     /**
      * @OA\Post(
-     *      path="/tokens/create",
+     *      path="/auth/token",
      *      operationId="create",
-     *      tags={"token"},
-     *      summary="create Token for user after authentication",
-     *      description="create token for user after authentication",
+     *      tags={"Authentication Token"},
+     *      summary="creates Token for user after authentication",
+     *      description="creates token for user after authentication",
      *      @OA\RequestBody(
      *         required=true,
      *         @OA\JsonContent(

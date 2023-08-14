@@ -73,6 +73,34 @@ class MoviesController extends Controller
     /**
      * Display a listing of the resource.
      */
+     /**
+     * @OA\Get(
+     *      path="/films/list",
+     *      operationId="list",
+     *      tags={"Films"},
+     *      summary="list all stored data for sw films",
+     *      description="list all stored data for sw films. further films can be searched using there title as search param in query",
+     *      @OA\SecurityScheme(
+     *          type="apiKey",
+     *          in="header",
+     *          securityScheme="token",
+     *          name="Authorization"
+     *      ),
+     *      @OA\Parameter(
+     *         name="search",
+     *         in="query",
+     *         description="search any title or part of title to filter results",
+     *         required=false,
+     *      ),
+     *     @OA\Response(
+     *          response=200, description="Success",
+     *          @OA\JsonContent(
+     *             @OA\Property(property="films", type="object", example="")
+     *          )
+     *       )
+     *  )
+     *  )
+     */
     public function index(Request $request)
     {
         $search = '';
@@ -101,6 +129,28 @@ class MoviesController extends Controller
     /**
      * Store a newly created resource in storage.
      */
+     /**
+     * @OA\Get(
+     *      path="/films/store",
+     *      operationId="store",
+     *      tags={"Films"},
+     *      summary="store and refresh all films from api of sw films",
+     *      description="it refreshes and gets all the latest films from sw api and store in database for further modification and deletion and listing",
+     *      @OA\SecurityScheme(
+     *          type="apiKey",
+     *          in="header",
+     *          securityScheme="token",
+     *          name="Authorization"
+     *      ),
+     *     @OA\Response(
+     *          response=200, description="Success",
+     *          @OA\JsonContent(
+     *             @OA\Property(property="films", type="object", example="")
+     *          )
+     *       )
+     *  )
+     *  )
+     */
     public function store(Request $request)
     {
         $swapi = new SwapiController();
@@ -112,6 +162,7 @@ class MoviesController extends Controller
             $movie->insert($formatMovies);
         }
         $allMovies = $movie->get([
+            'id',
             'title',
             'episode_id',
             'opening_crawl',
@@ -126,6 +177,34 @@ class MoviesController extends Controller
 
     /**
      * Display the specified resource.
+     */
+     /**
+     * @OA\Get(
+     *      path="/films/list/{id}",
+     *      operationId="listOne",
+     *      tags={"Films"},
+     *      summary="List required film using id having all details of that film from sw apis",
+     *      description="it fetches all relevant resources for film from sw API and stores in cache and return response the response for a purticular film would take time in the initial request after that it returns response faster",
+     *      @OA\SecurityScheme(
+     *          type="apiKey",
+     *          in="header",
+     *          securityScheme="token",
+     *          name="Authorization"
+     *      ),
+     *      @OA\Parameter(
+     *         name="id",
+     *         in="path",
+     *         description="search any id",
+     *         required=true,
+     *      ),
+     *     @OA\Response(
+     *          response=200, description="Success",
+     *          @OA\JsonContent(
+     *             @OA\Property(property="film", type="object", example="")
+     *          )
+     *       )
+     *  )
+     *  )
      */
     public function show(string $id)
     {
@@ -152,6 +231,45 @@ class MoviesController extends Controller
     /**
      * Update the specified resource in storage.
      */
+    /**
+     * @OA\Post(
+     *      path="/films/modify/{id}",
+     *      operationId="updateOne",
+     *      tags={"Films"},
+     *      summary="List required film using id having all details of that film from sw apis",
+     *      description="it fetches all relevant resources for film from sw API and stores in cache and return response the response for a purticular film would take time in the initial request after that it returns response faster",
+     *      @OA\SecurityScheme(
+     *          type="apiKey",
+     *          in="header",
+     *          securityScheme="token",
+     *          name="Authorization"
+     *      ),
+     *      @OA\Parameter(
+     *         name="id",
+     *         in="path",
+     *         description="update any id",
+     *         required=true,
+     *      ),
+     *      @OA\RequestBody(
+     *         required=true,
+     *         @OA\JsonContent(
+     *            @OA\Property(property="title",    type="string", format="string", example="Revenge of the Sith"),
+     *            @OA\Property(property="episode_id", type="string", format="string", example="6"),
+     *            @OA\Property(property="opening_crawl", type="string", format="string", example="War! The Republic is crumbling\r\nunder attacks by the ruthless\r\nSith Lord, Count Dooku.\r\nThere are heroes on both sides.\r\nEvil is everywhere.\r\n\r\nIn a stunning move, the\r\nfiendish droid leader, General\r\nGrievous, has swept into the\r\nRepublic capital and kidnapped\r\nChancellor Palpatine, leader of\r\nthe Galactic Senate.\r\n\r\nAs the Separatist Droid Army\r\nattempts to flee the besieged\r\ncapital with their valuable\r\nhostage, two Jedi Knights lead a\r\ndesperate mission to rescue the\r\ncaptive Chancellor...."),
+     *            @OA\Property(property="director", type="string", format="string", example="Howard G. Kazanjian"),
+     *            @OA\Property(property="producer", type="string", format="string", example="George Lucas"),
+     *            @OA\Property(property="release_date", type="string", format="string", example="2005-05-19"),
+     *         ),
+     *      ),
+     *     @OA\Response(
+     *          response=200, description="Success",
+     *          @OA\JsonContent(
+     *             @OA\Property(property="films", type="object", example="")
+     *          )
+     *       )
+     *  )
+     *  )
+     */
     public function update(Request $request, string $id)
     {
         $movie = new Movie();
@@ -166,6 +284,7 @@ class MoviesController extends Controller
             $DBmovie->update();
 
             $allMovies = $movie->get([
+                'id',
                 'title',
                 'episode_id',
                 'opening_crawl',
@@ -182,6 +301,34 @@ class MoviesController extends Controller
 
     /**
      * Remove the specified resource from storage.
+     */
+    /**
+     * @OA\Get(
+     *      path="/films/delete/{id}",
+     *      operationId="DeleteOne",
+     *      tags={"Films"},
+     *      summary="Delete required film using id having all details of that film from sw apis",
+     *      description="It Deletes required film using id from database",
+     *      @OA\SecurityScheme(
+     *          type="apiKey",
+     *          in="header",
+     *          securityScheme="token",
+     *          name="Authorization"
+     *      ),
+     *      @OA\Parameter(
+     *         name="id",
+     *         in="path",
+     *         description="delete any film using id",
+     *         required=true,
+     *      ),
+     *     @OA\Response(
+     *          response=200, description="Success",
+     *          @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", example="delete successful")
+     *          )
+     *       )
+     *  )
+     *  )
      */
     public function destroy(string $id)
     {

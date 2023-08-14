@@ -10,13 +10,6 @@ use Illuminate\Routing\Controller as BaseController;
      *      version="1.0.0",
      *      title="Star Wars Movies",
      *      description="Star Wars Movies Documentation",
-     *      @OA\Contact(
-     *          email="tahaiqbal610@gmail.com"
-     *      ),
-     *      @OA\License(
-     *          name="Apache 2.0",
-     *          url="http://www.apache.org/licenses/LICENSE-2.0.html"
-     *      )
      * )
      *
      * @OA\Server(
@@ -26,8 +19,8 @@ use Illuminate\Routing\Controller as BaseController;
 
      *
      * @OA\Tag(
-     *     name="Projects",
-     *     description="API Endpoints of Projects"
+     *     name="Star Wars",
+     *     description="API Endpoints of Star Wars"
      * )
      */
 class Controller extends BaseController

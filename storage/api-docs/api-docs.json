@@ -3,13 +3,6 @@
     "info": {
         "title": "Star Wars Movies",
         "description": "Star Wars Movies Documentation",
-        "contact": {
-            "email": "tahaiqbal610@gmail.com"
-        },
-        "license": {
-            "name": "Apache 2.0",
-            "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
-        },
         "version": "1.0.0"
     },
     "servers": [
@@ -19,13 +12,227 @@
         }
     ],
     "paths": {
-        "/tokens/create": {
+        "/films/list": {
+            "get": {
+                "tags": [
+                    "Films"
+                ],
+                "summary": "list all stored data for sw films",
+                "description": "list all stored data for sw films. further films can be searched using there title as search param in query",
+                "operationId": "list",
+                "parameters": [
+                    {
+                        "name": "search",
+                        "in": "query",
+                        "description": "search any title or part of title to filter results",
+                        "required": false
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "films": {
+                                            "type": "object",
+                                            "example": ""
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/films/store": {
+            "get": {
+                "tags": [
+                    "Films"
+                ],
+                "summary": "store and refresh all films from api of sw films",
+                "description": "it refreshes and gets all the latest films from sw api and store in database for further modification and deletion and listing",
+                "operationId": "store",
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "films": {
+                                            "type": "object",
+                                            "example": ""
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/films/list/{id}": {
+            "get": {
+                "tags": [
+                    "Films"
+                ],
+                "summary": "List required film using id having all details of that film from sw apis",
+                "description": "it fetches all relevant resources for film from sw API and stores in cache and return response the response for a purticular film would take time in the initial request after that it returns response faster",
+                "operationId": "listOne",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "search any id",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "film": {
+                                            "type": "object",
+                                            "example": ""
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/films/modify/{id}": {
             "post": {
                 "tags": [
-                    "token"
+                    "Films"
                 ],
-                "summary": "create Token for user after authentication",
-                "description": "create token for user after authentication",
+                "summary": "List required film using id having all details of that film from sw apis",
+                "description": "it fetches all relevant resources for film from sw API and stores in cache and return response the response for a purticular film would take time in the initial request after that it returns response faster",
+                "operationId": "updateOne",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "update any id",
+                        "required": true
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "title": {
+                                        "type": "string",
+                                        "format": "string",
+                                        "example": "Revenge of the Sith"
+                                    },
+                                    "episode_id": {
+                                        "type": "string",
+                                        "format": "string",
+                                        "example": "6"
+                                    },
+                                    "opening_crawl": {
+                                        "type": "string",
+                                        "format": "string",
+                                        "example": "War! The Republic is crumbling\\r\\nunder attacks by the ruthless\\r\\nSith Lord, Count Dooku.\\r\\nThere are heroes on both sides.\\r\\nEvil is everywhere.\\r\\n\\r\\nIn a stunning move, the\\r\\nfiendish droid leader, General\\r\\nGrievous, has swept into the\\r\\nRepublic capital and kidnapped\\r\\nChancellor Palpatine, leader of\\r\\nthe Galactic Senate.\\r\\n\\r\\nAs the Separatist Droid Army\\r\\nattempts to flee the besieged\\r\\ncapital with their valuable\\r\\nhostage, two Jedi Knights lead a\\r\\ndesperate mission to rescue the\\r\\ncaptive Chancellor...."
+                                    },
+                                    "director": {
+                                        "type": "string",
+                                        "format": "string",
+                                        "example": "Howard G. Kazanjian"
+                                    },
+                                    "producer": {
+                                        "type": "string",
+                                        "format": "string",
+                                        "example": "George Lucas"
+                                    },
+                                    "release_date": {
+                                        "type": "string",
+                                        "format": "string",
+                                        "example": "2005-05-19"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "films": {
+                                            "type": "object",
+                                            "example": ""
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/films/delete/{id}": {
+            "get": {
+                "tags": [
+                    "Films"
+                ],
+                "summary": "Delete required film using id having all details of that film from sw apis",
+                "description": "It Deletes required film using id from database",
+                "operationId": "DeleteOne",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "delete any film using id",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "delete successful"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/auth/token": {
+            "post": {
+                "tags": [
+                    "Authentication Token"
+                ],
+                "summary": "creates Token for user after authentication",
+                "description": "creates token for user after authentication",
                 "operationId": "create",
                 "requestBody": {
                     "required": true,
@@ -80,8 +287,8 @@
     },
     "tags": [
         {
-            "name": "Projects",
-            "description": "API Endpoints of Projects"
+            "name": "Star Wars",
+            "description": "API Endpoints of Star Wars"
         }
     ]
 }
