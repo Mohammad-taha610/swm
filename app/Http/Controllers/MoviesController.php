@@ -79,14 +79,13 @@ class MoviesController extends Controller
         if($request->has('search')) $search = $request->get('search');
         $movie = new Movie();
         $allMovies = $movie->where('title','like','%'.$search.'%')->get([
+            'id',
             'title',
             'episode_id',
             'opening_crawl',
             'director',
             'producer',
             'release_date',
-            'created',
-            'edited',
         ]);
         return response()->json([ 'films'=>$allMovies ]);
     }
@@ -133,8 +132,13 @@ class MoviesController extends Controller
         $movie = new Movie();
         $DBmovie = $movie->find($id);
         $Swapi = new SwapiController();
-        if($DBmovie) $movie_details = $Swapi->get($DBmovie->url);
-        return response()->json([ 'film'=> $this->formatThisMovie($movie_details) ]);
+        if ($DBmovie) {
+            $movie_details = $Swapi->get($DBmovie->url);
+            return response()->json(['film' => $this->formatThisMovie($movie_details)]);
+        }
+
+        return response()->json(['message' => 'Film Not Found'], 404);
+
     }
 
     /**
@@ -150,7 +154,30 @@ class MoviesController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $movie = new Movie();
+        $DBmovie = $movie->find($id);
+        if ($DBmovie) {
+            if ($request->has('title')) $DBmovie->title = $request->input('title');
+            if ($request->has('episode_id')) $DBmovie->episode_id = $request->input('episode_id');
+            if ($request->has('opening_crawl')) $DBmovie->opening_crawl = $request->input('opening_crawl');
+            if ($request->has('director')) $DBmovie->director = $request->input('director');
+            if ($request->has('producer')) $DBmovie->producer = $request->input('producer');
+            if ($request->has('release_date')) $DBmovie->release_date = $request->input('release_date');
+            $DBmovie->update();
+
+            $allMovies = $movie->get([
+                'title',
+                'episode_id',
+                'opening_crawl',
+                'director',
+                'producer',
+                'release_date',
+            ]);
+
+            return response()->json(['films' => $allMovies]);
+        }
+        return response()->json(['message' => 'Film Not Found'], 404);
+
     }
 
     /**
@@ -158,6 +185,14 @@ class MoviesController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $movie = new Movie();
+        $DBmovie = $movie->find($id);
+        if($DBmovie){
+            $DBmovie->delete();
+            return response()->json([ 'message'=> 'delete successful' ]);
+        }
+        return response()->json([ 'message'=> 'Film Not Found' ], 404);
+
+
     }
 }

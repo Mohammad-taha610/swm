@@ -23,4 +23,6 @@ Route::post('/tokens/create', [TokenController::class, 'createToken']);
 Route::middleware('auth:sanctum')->get('/films/store', [MoviesController::class, 'store']);
 Route::middleware('auth:sanctum')->get('/films/list', [MoviesController::class, 'index']);
 Route::middleware('auth:sanctum')->get('/films/list/{id}', [MoviesController::class, 'show']);
+Route::middleware('auth:sanctum')->post('/films/modify/{id}', [MoviesController::class, 'update']);
+Route::middleware('auth:sanctum')->get('/films/delete/{id}', [MoviesController::class, 'destroy']);
 
