@@ -18,7 +18,7 @@ class AuthTest extends TestCase
             'password' => bcrypt('password')
         ]);
 
-        $response = $this->post('/api/tokens/create', [
+        $response = $this->post('/api/auth/token', [
             'email' => 'foo@mail.com',
             'password' => 'password'
         ]);
@@ -37,7 +37,7 @@ class AuthTest extends TestCase
             'password' => bcrypt('password')
         ]);
 
-        $response = $this->post('/api/tokens/create', [
+        $response = $this->post('/api/auth/token', [
             'email' => 'foo@mail.com',
             'password' => 'WRONG-PASSWORD'
         ]);
@@ -54,7 +54,7 @@ class AuthTest extends TestCase
             'password' => bcrypt('password')
         ]);
 
-        $response = $this->post('/api/tokens/create', [
+        $response = $this->post('/api/auth/token', [
             'email' => null,
             'password' => 'password'
         ]);
@@ -77,7 +77,7 @@ class AuthTest extends TestCase
             'password' => bcrypt('password')
         ]);
 
-        $response = $this->post('/api/tokens/create', [
+        $response = $this->post('/api/auth/token', [
             'email' => 'foo',
             'password' => 'password'
         ]);
@@ -100,7 +100,7 @@ class AuthTest extends TestCase
             'password' => bcrypt('password')
         ]);
 
-        $response = $this->post('/api/tokens/create', [
+        $response = $this->post('/api/auth/token', [
             'email' => 'foo@mail.com',
             'password' => null,
         ]);
