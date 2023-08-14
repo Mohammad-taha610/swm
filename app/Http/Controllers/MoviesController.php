@@ -117,15 +117,6 @@ class MoviesController extends Controller
         ]);
         return response()->json([ 'films'=>$allMovies ]);
     }
-
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
-
     /**
      * Store a newly created resource in storage.
      */
@@ -219,15 +210,6 @@ class MoviesController extends Controller
         return response()->json(['message' => 'Film Not Found'], 404);
 
     }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        //
-    }
-
     /**
      * Update the specified resource in storage.
      */
